@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 	"text/template"
@@ -74,10 +73,11 @@ func main() {
 	}
 
 	funcMap := template.FuncMap{
-		"example": m.ExampleFunc(false),
-		"code":    m.ExampleFunc(true),
-		"output":  m.OutputFunc,
-		"doc":     m.DocFunc,
+		"example":    m.ExampleFunc(false),
+		"code":       m.ExampleFunc(true),
+		"output":     m.OutputFunc,
+		"doc":        m.DocFunc,
+		"playground": m.PlaygroundFunc,
 	}
 
 	tpl, err := template.New("main").Funcs(funcMap).ParseFiles(flags.input)
@@ -91,7 +91,7 @@ func main() {
 		abort("can't process template, %s\n", err.Error())
 		return
 	}
-	if err := ioutil.WriteFile(flags.output, buf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(flags.output, buf.Bytes(), 0644); err != nil {
 		abort("can't write output, %s\n", err.Error())
 		return
 	}

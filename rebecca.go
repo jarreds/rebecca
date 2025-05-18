@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"go/ast"
 	"go/doc"
+	"go/format"
 	"go/parser"
 	"go/printer"
 	"go/token"
@@ -107,6 +108,26 @@ func (m *CodeMap) DocFunc(in string) string {
 		panic(fmt.Sprintf("Doc for %s not found.", in))
 	}
 	return strings.Trim(c, "\n")
+}
+
+func (m *CodeMap) PlaygroundFunc(in string) string {
+	e, ok := m.Examples[in]
+	if !ok {
+		panic(fmt.Sprintf("Example %s not found.", in))
+	}
+
+	var buf bytes.Buffer
+	if err := format.Node(&buf, nil, e.Play); err != nil {
+		panic(fmt.Sprintf("Failed to format code for %s: %v", in, err))
+	}
+
+	out := buf.String()
+	if strings.HasSuffix(out, "\n\n}") {
+		// fix annoying line-feed before end brace
+		out = out[:len(out)-2] + "}"
+	}
+
+	return out
 }
 
 var bothRegex = regexp.MustCompile(`^(\d+):(\d+)$`)
