@@ -1,3 +1,3 @@
-module github.com/jarreds/rebecca
+module github.com/dave/rebecca
 
-go 1.24.3
+go 1.19
