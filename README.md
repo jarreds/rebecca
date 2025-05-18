@@ -36,7 +36,15 @@ template library, and adds some custom template functions:
 ```
 
 This prints the code and expected output for the `ExampleFoo` example.
-  
+
+# Playground
+
+```
+{{ "ExampleFoo" | playground }}
+```
+
+This prints the code for the `ExampleFoo` in the Go Playground format.
+
 # Doc
 
 ```
