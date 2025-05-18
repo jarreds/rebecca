@@ -122,9 +122,9 @@ func (m *CodeMap) PlaygroundFunc(in string) string {
 	}
 
 	out := buf.String()
-	if strings.HasSuffix(out, "\n\n}") {
+	if strings.HasSuffix(out, "\n\n}\n") {
 		// fix annoying line-feed before end brace
-		out = out[:len(out)-2] + "}"
+		out = out[:len(out)-3] + "}"
 	}
 
 	return out
