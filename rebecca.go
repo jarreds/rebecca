@@ -117,7 +117,7 @@ func (m *CodeMap) PlaygroundFunc(in string) string {
 	}
 
 	var buf bytes.Buffer
-	if err := format.Node(&buf, nil, e.Play); err != nil {
+	if err := format.Node(&buf, m.fset, e.Play); err != nil {
 		panic(fmt.Sprintf("Failed to format code for %s: %v", in, err))
 	}
 
